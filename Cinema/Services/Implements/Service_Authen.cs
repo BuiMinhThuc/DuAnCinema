@@ -341,11 +341,11 @@ namespace Cinema.Services.Implements
 
             if (!currentUser.Identity.IsAuthenticated)
             {
-                throw new ArgumentNullException("Tai khoan chua duoc xac thuc");
+                throw new ArgumentNullException("Tài khoản chưa được xác thực !");
             }
             if (!currentUser.IsInRole("Admin"))
             {
-                throw new ArgumentNullException("Nguoi dung khong co quyen dung chuc nang nay");
+                throw new ArgumentNullException("Người dùng không có quyền sử dụng chức năng này");
             }
             IQueryable<User> check = dbContext.users.AsQueryable();
 
@@ -360,6 +360,14 @@ namespace Cinema.Services.Implements
             if (!string.IsNullOrWhiteSpace(input.Name))
             {
                 check = check.Where(x => x.Name.ToLower().Contains(input.Name.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(input.PhoneNumber))
+            {
+                check = check.Where(x => x.PhoneNumber.ToLower().Contains(input.PhoneNumber.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(input.Username))
+            {
+                check = check.Where(x => x.Username.ToLower().Contains(input.Username.ToLower()));
             }
 
             var result = check.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(x => converter.EntityToDTO(x));

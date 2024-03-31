@@ -1,4 +1,4 @@
-using Cinema.DataContext;
+﻿using Cinema.DataContext;
 using Cinema.Payloads.Converters;
 using Cinema.Payloads.DTO;
 using Cinema.Payloads.DTO.DTO_Cinema;
@@ -10,6 +10,7 @@ using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using WebCourseManagement_Business.Implements;
@@ -26,13 +27,33 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(x =>
 {
-    x.AddSecurityDefinition("Auth", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    x.SwaggerDoc("v1",new Microsoft.OpenApi.Models.OpenApiInfo { Title ="Swagger eShop Solution",Version ="v1"});
+    x.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
-        Description = "L�m theo m?u n�y. Example: Bearer {Token} ",
+        Description = "Làm theo mẫu này. Example: Bearer {Token} ",
         Name = "Authorization",
-        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey
+        In= Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
     });
-    x.OperationFilter<SecurityRequirementsOperationFilter>();
+    x.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                  {
+                    {
+                      new OpenApiSecurityScheme
+                      {
+                        Reference = new OpenApiReference
+                          {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                          },
+                          Scheme = "oauth2",
+                          Name = "Bearer",
+                          In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                      }
+                    });
+    //x.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
     options.RequireHttpsMetadata = false;

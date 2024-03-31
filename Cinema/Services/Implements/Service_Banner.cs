@@ -84,5 +84,11 @@ namespace Cinema.Services.Implements
             dbContext.SaveChanges();
             return responseObject.ResponseSuccess("Sửa banner thành công !", converter.EntityToDTO(banner));
         }
+
+        public IQueryable<DTO_Banner> GetBannerList(int pageSize, int pageNumber)
+        {
+           var query = dbContext.banners.Skip((pageSize-1)*pageNumber).Take(pageSize).AsQueryable();
+            return query.Select(x=>converter.EntityToDTO(x));
+        }
     }
 }

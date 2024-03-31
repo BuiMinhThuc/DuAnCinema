@@ -41,5 +41,13 @@ namespace Cinema.Controllers
         {
             return Ok(service.DeleteBanner(Id));
         }
+        [HttpGet("getAll Banner")]
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(Roles = "Admin,Manager,Staff")]
+        public IActionResult GetAllBanner(int pageSize,int pageNumber)
+        {
+            return Ok(service.GetBannerList(pageSize,pageNumber));
+        }
     }
 }

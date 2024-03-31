@@ -83,7 +83,7 @@ namespace Cinema.Controllers
         [HttpGet("GetAllUsers")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [Authorize(Roles = "Admin")]
-        public IActionResult GetAllUsers(InputUser input,int pageSize = 10, int pageNumber = 1)
+        public IActionResult GetAllUsers([FromQuery]InputUser input,int pageSize = 10, int pageNumber = 1)
         {
             return Ok(IDangki.Hienthitimkiem(input,pageSize, pageNumber));
         }
