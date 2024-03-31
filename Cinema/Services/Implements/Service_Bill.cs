@@ -6,6 +6,7 @@ using Cinema.Payloads.Requests.Request_Bill;
 using Cinema.Payloads.Response;
 using Cinema.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Any;
 using WebCourseManagement_Business.Implements;
 
 namespace Cinema.Services.Implements
@@ -15,7 +16,7 @@ namespace Cinema.Services.Implements
         private readonly ResponseObject<DTO_Bill> response;
         private readonly Converter_Bill converter;
         private readonly AppDbContext dbContext;
-        //private readonly IHttpContextAccessor _httpContextAccessor;
+  
         public Service_Bill(AppDbContext appDbContext, ResponseObject<DTO_Bill> response, Converter_Bill converter)
         {
             this.response = response;
@@ -31,7 +32,16 @@ namespace Cinema.Services.Implements
             if (cinema1 == null) { return response.ResponseError(StatusCodes.Status400BadRequest, "Không tồn tại cinema này !", null); }
             var room = dbContext.rooms.Find(request.RoomId);
             if (room == null) {return response.ResponseError(StatusCodes.Status400BadRequest, "Không tồn tại room này !", null); }
-             
+
+            foreach (var Ticket in request.Tickets)
+            {
+                foreach (var billTicket in dbContext.billTickets)
+                {
+
+                    if (billTicket.TicketId == Ticket.Id)
+                        return response.ResponseError(StatusCodes.Status400BadRequest, "Ghế đã được đặt rồi!", null);
+                }
+            }
             double tongPrice=0;
             foreach(var item in request.Foods)
             {
@@ -39,7 +49,7 @@ namespace Cinema.Services.Implements
             }
             foreach (var item in request.Tickets)
             {
-                tongPrice = tongPrice + dbContext.tickets.Find(item.Id).PriceTicket * item.QuantityTicket;
+                tongPrice = tongPrice + dbContext.tickets.Find(item.Id).PriceTicket;
             }
             double GiamGia = dbContext.promotions
                 .Include(x=>x.RankCustomer)
@@ -76,7 +86,7 @@ namespace Cinema.Services.Implements
             {
                 var billticket = new BillTicket
                 {
-                    Quantity = item.QuantityTicket,
+                    Quantity = 1,
                     BillId = bill.Id,
                     TicketId = item.Id,
                 };

@@ -3,6 +3,6 @@
     public class Request_BillTicket
     {
         public int Id { get; set; }
-        public int QuantityTicket { get; set; }
+
     }
 }

@@ -6,6 +6,7 @@ namespace Cinema.Handle
     {
         public static bool IsValiEmail(string email)
         {
+            //Hello1
             var CheckEmail = new EmailAddressAttribute();
             return CheckEmail.IsValid(email);
         }

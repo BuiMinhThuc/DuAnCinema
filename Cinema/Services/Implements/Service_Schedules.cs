@@ -59,6 +59,23 @@ namespace Cinema.Services.Implements
             schedules.RoomId= request.RoomId;
             dbContext.schedules.Add(schedules);
             dbContext.SaveChanges();
+            foreach(var seat in dbContext.seats.ToList())
+            {
+                if (seat.RoomId == schedules.RoomId)
+                {
+                    var ticket = new Ticket
+                    {
+                        Code= schedules.Code,
+                        ScheduleId=schedules.Id,
+                        SeatId=seat.Id,
+                        IsActive=true,
+                        PriceTicket=schedules.Price
+                    };
+                    dbContext.tickets.Add(ticket);
+                    dbContext.SaveChanges();
+                }    
+            }
+            
             return responseObject.ResponseSuccess("Thêm Schedules thành công !",converter.EntityToDTO(schedules));
         }
 
