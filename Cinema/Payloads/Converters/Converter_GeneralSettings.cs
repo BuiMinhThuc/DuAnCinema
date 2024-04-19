@@ -11,10 +11,10 @@ namespace Cinema.Payloads.Converters
                 BreakTime = generalSettings.BreakTime,
                 BusinessHours= generalSettings.BusinessHours,
                 CloseTime= generalSettings.CloseTime,
-                FixedTiketPrice = generalSettings.FixedTiketPrice,
+                FixedTiketPrice = generalSettings.FixedTicketPrice,
                 PercentDay = generalSettings.PercentDay,
-                PercenWeekend = generalSettings.PercenWeekend,
-                TimeBeginToChage = generalSettings.TimeBeginToChage,
+                PercenWeekend = generalSettings.PercentWeekend,
+                TimeBeginToChange = generalSettings.TimeBeginToChange,
             };
     }
 }

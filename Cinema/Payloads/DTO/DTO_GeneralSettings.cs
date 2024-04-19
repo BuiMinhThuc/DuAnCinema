@@ -8,6 +8,6 @@
         public double FixedTiketPrice { get; set; }
         public int PercentDay { get; set; }
         public int PercenWeekend { get; set; }
-        public DateTime TimeBeginToChage { get; set; }
+        public DateTime TimeBeginToChange { get; set; }
     }
 }

@@ -29,13 +29,13 @@ namespace Cinema.Services
                 BreakTime = request.BreakTime,
                 BusinessHours = request.BusinessHours,
                 CloseTime  = request.CloseTime,
-                FixedTiketPrice = request.FixedTiketPrice,
+                FixedTicketPrice = request.FixedTiketPrice,
                 PercentDay = request.PercentDay,
-                PercenWeekend = request.PercenWeekend,
-                TimeBeginToChage = request.TimeBeginToChage,
+                PercentWeekend = request.PercenWeekend,
+                TimeBeginToChange = request.TimeBeginToChage,
             };
             dbContext.generalSettings.Add(generalSetting);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
             return responseObject.ResponseSuccess("Thêm thành công !", converter.EntityToDTO(generalSetting));
         }
 
@@ -46,13 +46,13 @@ namespace Cinema.Services
             generalSetting.BreakTime = request.BreakTime;
             generalSetting.BusinessHours = request.BusinessHours;
             generalSetting.CloseTime = request.CloseTime;
-            generalSetting.FixedTiketPrice = request.FixedTiketPrice;
+            generalSetting.FixedTicketPrice = request.FixedTiketPrice;
             generalSetting.PercentDay = request.PercentDay;
-            generalSetting.PercenWeekend = request.PercenWeekend;
-            generalSetting.TimeBeginToChage = request.TimeBeginToChage;
+            generalSetting.PercentWeekend = request.PercenWeekend;
+            generalSetting.TimeBeginToChange = request.TimeBeginToChage;
            
             dbContext.generalSettings.Update(generalSetting);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
             return responseObject.ResponseSuccess("Sửa thành công !", converter.EntityToDTO(generalSetting));
         }
     }
