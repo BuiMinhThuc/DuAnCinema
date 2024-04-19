@@ -45,7 +45,7 @@ namespace Cinema.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [Authorize(Roles = "Admin,Manager,Staff")]
-        public IActionResult GetAllBanner(int pageSize,int pageNumber)
+        public IActionResult GetAllBanner(int pageSize=5,int pageNumber=1)
         {
             return Ok(service.GetBannerList(pageSize,pageNumber));
         }

@@ -87,7 +87,7 @@ namespace Cinema.Services.Implements
 
         public IQueryable<DTO_Banner> GetBannerList(int pageSize, int pageNumber)
         {
-           var query = dbContext.banners.Skip((pageSize-1)*pageNumber).Take(pageSize).AsQueryable();
+           var query = dbContext.banners.Skip((pageNumber-1)* pageSize).Take(pageSize).AsQueryable();
             return query.Select(x=>converter.EntityToDTO(x));
         }
     }

@@ -5,6 +5,7 @@ using Cinema.Payloads.DTO.DTO_Cinema;
 using Cinema.Payloads.DTO.DTO_Food;
 using Cinema.Payloads.DTO.Users_DTO;
 using Cinema.Payloads.Response;
+using Cinema.Services;
 using Cinema.Services.Implements;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,7 +25,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+
 builder.Services.AddSwaggerGen(x =>
 {
     x.SwaggerDoc("v1",new Microsoft.OpenApi.Models.OpenApiInfo { Title ="Swagger eShop Solution",Version ="v1"});
@@ -67,9 +69,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
             builder.Configuration.GetSection("AppSettings:SecretKey").Value!))
     };
 });
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddCors();
+builder.Services.AddHttpClient();
+
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IService_Authen, Service_Authen>();
+builder.Services.AddScoped<IService_GeneralSettings, Service_GeneralSettings>();
 builder.Services.AddScoped<IService_Cinema, Service_Cinema>();
 builder.Services.AddScoped<IService_Room, Service_Room>();
 builder.Services.AddScoped<IService_Seat, Service_Seat>();
@@ -104,6 +111,10 @@ builder.Services.AddScoped<ResponseObject<DTO_ThongKeDoanhSo_Cinema>>();
 builder.Services.AddScoped<Converter_Banner>();
 builder.Services.AddScoped<DTO_Banner>();
 builder.Services.AddScoped<DTO_ThongKeDoanhSo_Cinema>();
+builder.Services.AddScoped<ResponseObject<DTO_GeneralSettings>>();
+//builder.Services.AddScoped<DTO_GeneralSettings>();
+builder.Services.AddScoped<Converter_GeneralSettings>();
+
 
 
 var app = builder.Build();

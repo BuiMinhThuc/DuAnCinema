@@ -35,7 +35,7 @@ namespace Cinema.Services.Implements
         private readonly ResponseObject<DTO_Token> _responseObjectToken;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AppDbContext dbContext;
-        public int Idtempt;
+       
         public Service_Authen(IConfiguration configuration, ResponseObject<DTO_Token> responseObjectToken,ResponseObject<DTO_DangKi> _reponseObject, IHttpContextAccessor httpContextAccessor, AppDbContext appDbContext, Converter_DangKi converter_DangKi)
         {
 
@@ -373,13 +373,6 @@ namespace Cinema.Services.Implements
             var result = check.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(x => converter.EntityToDTO(x));
             return result;
         }
-
-        
-
-
-
-
-
     }
 }
 
